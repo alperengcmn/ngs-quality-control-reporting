@@ -1,4 +1,4 @@
-# NGS Quality Control & Reporting (BIF101)
+# NGS Quality Control & Reporting 
 
 ## Goal
 Build a small RNA-seq QC pipeline:
