@@ -2,6 +2,7 @@
 set -euo pipefail
 SRA_ID="${1:-}"
 
+
 echo "Starting QC pipeline skeleton..."
 
 mkdir -p data/raw data/sra results report assets logs
