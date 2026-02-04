@@ -21,3 +21,21 @@
 - Overrepresented sequences:
 - Sequence duplication levels:
 - Sequence length distribution:
+- Per-base quality scores decreased towards the 3’ end of reads, with several bases falling into low-quality regions, indicating the need for trimming.
+- Adapter contamination was minimal, but trimming is still required due to quality decay at read ends.
+- Duplication levels were moderate, consistent with RNA-seq data.
+- GC content distribution was within expected range for human RNA-seq.
+- Some overrepresented sequences were detected, likely reflecting technical or biological biases.
+## Trimming rationale
+Raw FastQC showed a clear quality drop towards the 3' end of reads (per-base quality), suggesting that trailing low-quality bases could affect downstream analyses. Therefore, trimming was applied to remove low-quality bases and discard overly short reads.
+
+## Parameters used
+Trimming was performed using fastp with the following parameters:
+
+- `-q 20`: trim/filter bases/reads below Phred Q20
+- `-l 30`: discard reads shorter than 30 bp after trimming
+- `-w 6`: use 6 threads for faster processing
+
+Outputs:
+- Trimmed FASTQ: `results/trimmed/${SRA_ID}_1.trimmed.fastq.gz`, `results/trimmed/${SRA_ID}_2.trimmed.fastq.gz`
+- fastp report: `results/fastp/fastp.html` and `results/fastp/fastp.json`
