@@ -33,3 +33,29 @@ Screenshots:
 ![MultiQC raw overview](assets/multiqc_raw_overview.png)
 ![MultiQC per base quality](assets/multiqc_raw_per_base_quality.png)
 ![MultiQC adapters/overrepresented](assets/multiqc_raw_adapters_or_overrep.png)
+## Outputs
+
+### Raw QC summary (MultiQC)
+
+MultiQC report generated from raw FastQC results:
+
+- `results/multiqc_raw/multiqc_report.html`
+
+Screenshots:
+
+![MultiQC general statistics](assets/multiqc_raw_general_statistics.png)
+![MultiQC sequence quality histograms](assets/multiqc_raw_sequence_quality_histograms.png)
+![MultiQC per base quality](assets/multiqc_raw_per_base_quality.png)
+
+
+---
+
+### Trimming report (fastp)
+
+Reads were trimmed to remove low-quality bases and short reads based on FastQC results.
+
+Screenshots from fastp report:
+
+![Filtering result](assets/fastp_filtering_result.png)
+![Read 1 quality](assets/fastp_read1_quality.png)
+![Read 2 quality](assets/fastp_read2_quality.png)
