@@ -21,22 +21,20 @@ multiqc results/fastqc_raw -o results/multiqc_raw
 
 echo "  fastqc data/raw/*.fastq.gz -o results/fastqc_raw"
 echo "STEP 4: fastp trimming"
-
 mkdir -p results/trimmed results/fastp
-
-# ÖRNEK input değişkenleri (senin dosya isimlerine göre ayarla)
-R1="data/raw/sample_R1.fastq.gz"
-R2="data/raw/sample_R2.fastq.gz"
-
-# ÖRNEK output isimleri
-OUT_R1="results/trimmed/sample_R1.trim.fastq.gz"
-OUT_R2="results/trimmed/sample_R2.trim.fastq.gz"
-
 fastp \
-  -i "$R1" -I "$R2" \
-  -o "$OUT_R1" -O "$OUT_R2" \
-  -h "results/fastp/fastp.html" \
-  -j "results/fastp/fastp.json" \
-  -q 20 \
-  -l 50 \
-  -w 4
+  -i data/raw/${SRA_ID}_1.fastq.gz \
+  -I data/raw/${SRA_ID}_2.fastq.gz \
+  -o results/trimmed/${SRA_ID}_1.trimmed.fastq.gz \
+  -O results/trimmed/${SRA_ID}_2.trimmed.fastq.gz \
+  -h results/fastp/fastp.html \
+  -j results/fastp/fastp.json \
+  -q 20 -l 30 -w 6
+echo "STEP 5: Post-trim FastQC"
+mkdir -p results/fastqc_trimmed
+fastqc results/trimmed/*.fastq.gz -o results/fastqc_trimmed
+
+echo "STEP 6: Combined MultiQC (raw + trimmed + fastp)"
+mkdir -p results/multiqc_all
+multiqc results -o results/multiqc_all
+
