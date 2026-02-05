@@ -28,7 +28,7 @@ MultiQC report generated from raw FastQC results:
 
 - `results/multiqc_raw/multiqc_report.html`
 
-Screenshots::
+Screenshots:
 
 ![MultiQC raw overview](assets/multiqc_raw_overview.png)
 ![MultiQC per base quality](assets/multiqc_raw_per_base_quality.png)
