@@ -46,3 +46,6 @@ Outputs:
 - Adapter-related signals  were reduced after trimming.
 - Trimmed reads showed more consistent quality profiles across positions (R1 and R2).
 - No major changes were observed in GC distribution, suggesting no new bias introduced by trimming.
+## QC summary table highlights
+- A summary table was generated from MultiQC data (`report/qc_summary.csv`) to compare QC metrics across samples (R1/R2 and raw/trimmed if present).
+- The table highlights which sample has the highest number of WARN/FAIL modules and provides quick access to key metrics such as total sequences, GC%, read length, and duplication rate.
