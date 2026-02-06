@@ -49,3 +49,71 @@ Outputs:
 ## QC summary table highlights
 - A summary table was generated from MultiQC data (`report/qc_summary.csv`) to compare QC metrics across samples (R1/R2 and raw/trimmed if present).
 - The table highlights which sample has the highest number of WARN/FAIL modules and provides quick access to key metrics such as total sequences, GC%, read length, and duplication rate.
+# QC Report — SRR390728 (RNA-seq)
+
+## Dataset and Run Information
+- Accession: SRR390728
+- Organism: Human
+- Technology: Illumina
+- Layout: Paired-end (R1/R2)
+- Read length: 36 bp
+- Data source: NCBI Sequence Read Archive (SRA)
+
+---
+
+## Raw QC Findings
+
+- **Per-base sequence quality** showed a clear drop in quality towards the 3’ end of reads, with several bases entering the warning/fail zones, indicating low-quality tails.
+- **Per-sequence quality scores** indicated that most reads still had high overall average quality.
+- **GC content** distribution was within expected range for human RNA-seq data, suggesting no major contamination.
+- **Sequence duplication levels** were moderate; this is expected in RNA-seq due to highly expressed transcripts.
+- **Adapter/overrepresented sequences** were present at low levels, but combined with quality drop, trimming was justified.
+
+---
+
+## Trimming Rationale and Parameters
+
+Trimming was performed to remove low-quality bases at read ends and discard overly short reads that could negatively impact downstream analyses.
+
+fastp parameters used:
+
+- `-q 20` — trim/filter bases below Phred Q20
+- `-l 30` — discard reads shorter than 30 bp after trimming
+- `-w 6` — use 6 threads
+
+Outputs:
+- Trimmed FASTQ files in `results/trimmed/`
+- fastp report in `results/fastp/`
+
+---
+
+## Post-QC Improvements
+
+Post-trimming FastQC and MultiQC analysis showed:
+
+- Improved quality profiles at read ends (reduced low-quality tails).
+- More consistent per-base quality distribution across positions.
+- Reduced signals from adapter/overrepresented sequences.
+- GC distribution remained stable, indicating trimming did not introduce bias.
+
+---
+
+## Before vs After Comparison
+
+- Quality degradation at the 3’ end was mitigated after trimming.
+- Overall read quality distributions shifted toward higher confidence bases.
+- No major change was observed in GC distribution.
+- Read duplication levels remained within expected RNA-seq ranges.
+- Adapter-related signals were reduced.
+
+---
+
+## Final Assessment
+
+The dataset is **suitable for downstream analysis** (e.g., alignment and expression quantification).
+
+### Notes / Caveats
+- Short read length (36 bp) may limit mapping specificity compared to longer modern reads.
+- RNA-seq duplication is biologically driven; interpretation should consider transcript abundance.
+
+Overall, quality control and trimming steps successfully prepared the dataset for reliable downstream processing.
