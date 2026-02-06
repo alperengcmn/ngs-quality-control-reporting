@@ -59,3 +59,4 @@ Screenshots from fastp report:
 ![Filtering result](assets/fastp_filtering_result.png)
 ![Read 1 quality](assets/fastp_read1_quality.png)
 ![Read 2 quality](assets/fastp_read2_quality.png)
+Summary table generated: `report/qc_summary.csv`
