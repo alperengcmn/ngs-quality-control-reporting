@@ -39,3 +39,10 @@ Trimming was performed using fastp with the following parameters:
 Outputs:
 - Trimmed FASTQ: `results/trimmed/${SRA_ID}_1.trimmed.fastq.gz`, `results/trimmed/${SRA_ID}_2.trimmed.fastq.gz`
 - fastp report: `results/fastp/fastp.html` and `results/fastp/fastp.json`
+## Before vs After
+
+- Per-base quality at the 3' end improved after trimming, reducing low-quality tails observed in raw reads.
+- The overall per-sequence quality distribution shifted towards higher scores (fewer low-quality reads).
+- Adapter-related signals  were reduced after trimming.
+- Trimmed reads showed more consistent quality profiles across positions (R1 and R2).
+- No major changes were observed in GC distribution, suggesting no new bias introduced by trimming.
