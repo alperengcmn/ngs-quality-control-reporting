@@ -117,3 +117,16 @@ The dataset is **suitable for downstream analysis** (e.g., alignment and express
 - RNA-seq duplication is biologically driven; interpretation should consider transcript abundance.
 
 Overall, quality control and trimming steps successfully prepared the dataset for reliable downstream processing.
+## Final Assessment
+
+This RNA-seq dataset (SRR390728) underwent a complete quality control workflow including raw read assessment, trimming with fastp, and post-trim quality evaluation.
+
+Raw FastQC results indicated a noticeable decline in base quality toward the end of reads, which is typical for Illumina sequencing data. No severe GC bias, duplication anomalies, or adapter overrepresentation were observed at levels that would invalidate downstream analysis.
+
+Trimming was performed using fastp (Q20 quality threshold, minimum read length 30 bp). Post-trimming FastQC and MultiQC reports showed improved base quality consistency across read positions, while GC distribution and duplication levels remained stable, indicating no trimming-induced bias.
+
+### Conclusion
+
+The dataset is **suitable for downstream RNA-seq analysis** including alignment, expression quantification, and differential expression studies.
+
+Minor quality degradation at read tails was effectively mitigated by trimming, and no critical QC issues remain.
