@@ -60,3 +60,34 @@ Screenshots from fastp report:
 ![Read 1 quality](assets/fastp_read1_quality.png)
 ![Read 2 quality](assets/fastp_read2_quality.png)
 Summary table generated: `report/qc_summary.csv`
+## Requirements
+
+- SRA Toolkit (prefetch, fasterq-dump)
+- FastQC
+- MultiQC
+- fastp
+- Python 3
+
+## Quickstart
+
+Tüm QC pipeline’ı çalıştırmak için:
+
+bash scripts/run_qc.sh SRR390728
+
+## Outputs
+
+- Raw FastQC → results/fastqc_raw/
+- Raw MultiQC → results/multiqc_raw/multiqc_report.html
+- Trimmed FASTQ → results/trimmed/
+- fastp report → results/fastp/fastp.html
+- Post-trim FastQC → results/fastqc_trimmed/
+- Combined MultiQC → results/multiqc_all/multiqc_report.html
+- QC summary table → report/qc_summary.csv
+
+## Project Highlights
+
+- End-to-end RNA-seq QC pipeline
+- Raw vs Trimmed quality comparison
+- fastp trimming + HTML report
+- MultiQC consolidated reports
+- Automated QC summary table

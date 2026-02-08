@@ -1,40 +1,47 @@
 #!/usr/bin/env bash
 set -euo pipefail
-SRA_ID="${1:-}"
 
+SRA_ID="${1:-SRR390728}"
+THREADS=6
 
-echo "Starting QC pipeline skeleton..."
+mkdir -p data/sra data/raw results logs report
 
-mkdir -p data/raw data/sra results report assets logs
+LOG="logs/run_${SRA_ID}.log"
+exec > >(tee -a "$LOG") 2>&1
 
-echo "OK: project skeleton ready"
-echo "STEP 1: Download SRA and generate FASTQ (manual step for now)"
-echo "  prefetch ${SRA_ID} -O data/sra"
-echo "  fasterq-dump ${SRA_ID} --split-files -O data/raw"
-echo "  gzip data/raw/${SRA_ID}_1.fastq data/raw/${SRA_ID}_2.fastq"
+echo "Pipeline started for $SRA_ID"
+
+echo "STEP 1: Download + FASTQ"
+prefetch "$SRA_ID" -O data/sra
+fasterq-dump "$SRA_ID" --split-files -O data/raw -e "$THREADS"
+gzip -f data/raw/${SRA_ID}_1.fastq
+gzip -f data/raw/${SRA_ID}_2.fastq
+
 echo "STEP 2: Raw FastQC"
+mkdir -p results/fastqc_raw
+fastqc data/raw/${SRA_ID}_*.fastq.gz -o results/fastqc_raw -t "$THREADS"
+
 echo "STEP 3: Raw MultiQC"
-
 mkdir -p results/multiqc_raw
-
 multiqc results/fastqc_raw -o results/multiqc_raw
 
-echo "  fastqc data/raw/*.fastq.gz -o results/fastqc_raw"
 echo "STEP 4: fastp trimming"
 mkdir -p results/trimmed results/fastp
 fastp \
-  -i data/raw/${SRA_ID}_1.fastq.gz \
-  -I data/raw/${SRA_ID}_2.fastq.gz \
-  -o results/trimmed/${SRA_ID}_1.trimmed.fastq.gz \
-  -O results/trimmed/${SRA_ID}_2.trimmed.fastq.gz \
-  -h results/fastp/fastp.html \
-  -j results/fastp/fastp.json \
-  -q 20 -l 30 -w 6
+-i data/raw/${SRA_ID}_1.fastq.gz \
+-I data/raw/${SRA_ID}_2.fastq.gz \
+-o results/trimmed/${SRA_ID}_1.trimmed.fastq.gz \
+-O results/trimmed/${SRA_ID}_2.trimmed.fastq.gz \
+-h results/fastp/fastp.html \
+-j results/fastp/fastp.json \
+-q 20 -l 30 -w "$THREADS"
+
 echo "STEP 5: Post-trim FastQC"
 mkdir -p results/fastqc_trimmed
-fastqc results/trimmed/*.fastq.gz -o results/fastqc_trimmed
+fastqc results/trimmed/*.fastq.gz -o results/fastqc_trimmed -t "$THREADS"
 
-echo "STEP 6: Combined MultiQC (raw + trimmed + fastp)"
+echo "STEP 6: Combined MultiQC"
 mkdir -p results/multiqc_all
 multiqc results -o results/multiqc_all
 
+echo "Pipeline finished."
