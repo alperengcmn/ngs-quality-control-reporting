@@ -1,93 +1,84 @@
-# NGS Quality Control & Reporting 
-
-## Goal
-Build a small RNA-seq QC pipeline:
-raw QC → trimming → post-QC → reporting.
-
-## Pipeline Steps
+NGS Quality Control & Reporting Pipeline
+📌 Project Overview
+This project implements an end-to-end Next-Generation Sequencing (NGS) Quality Control pipeline starting from raw SRA data to a final QC report.
+The pipeline automates:
+Data download from SRA
+FASTQ conversion
+Raw quality control (FastQC)
+Multi-sample aggregation (MultiQC)
+Read trimming (fastp)
+Post-trimming QC
+Final structured QC report
+This project demonstrates practical experience with real NGS data processing and reproducible pipeline design.
+🔬 Dataset
+SRA ID: SRR390728
+Type: Paired-end sequencing
+Source: NCBI SRA
+⚙️ Pipeline Workflow
 SRA → FASTQ → FastQC → MultiQC → fastp → FastQC → MultiQC → QC_Report
-
-## Dataset
-SRR390728 | Human | Illumina | Paired-end | RNA-seq
-## Data acquisition
-Data were obtained from NCBI Sequence Read Archive (SRA).
-
-- Accession: SRR390728
-- Layout: Paired-end (R1/R2)
-
-Commands used:
-```bash
-prefetch SRR390728 -O data/sra
-fasterq-dump SRR390728 --split-files -O data/raw
-gzip data/raw/SRR390728_1.fastq
-gzip data/raw/SRR390728_2.fastq
-## Outputs
-
-### Raw QC summary (MultiQC)
-MultiQC report generated from raw FastQC results:
-
-- `results/multiqc_raw/multiqc_report.html`
-
-Screenshots:
-
-![MultiQC raw overview](assets/multiqc_raw_overview.png)
-![MultiQC per base quality](assets/multiqc_raw_per_base_quality.png)
-![MultiQC adapters/overrepresented](assets/multiqc_raw_adapters_or_overrep.png)
-## Outputs
-
-### Raw QC summary (MultiQC)
-
-MultiQC report generated from raw FastQC results:
-
-- `results/multiqc_raw/multiqc_report.html`
-
-Screenshots:
-
-![MultiQC general statistics](assets/multiqc_raw_general_statistics.png)
-![MultiQC sequence quality histograms](assets/multiqc_raw_sequence_quality_histograms.png)
-![MultiQC per base quality](assets/multiqc_raw_per_base_quality.png)
-
-
----
-
-### Trimming report (fastp)
-
-Reads were trimmed to remove low-quality bases and short reads based on FastQC results.
-
-Screenshots from fastp report:
-
-![Filtering result](assets/fastp_filtering_result.png)
-![Read 1 quality](assets/fastp_read1_quality.png)
-![Read 2 quality](assets/fastp_read2_quality.png)
-Summary table generated: `report/qc_summary.csv`
-## Requirements
-
-- SRA Toolkit (prefetch, fasterq-dump)
-- FastQC
-- MultiQC
-- fastp
-- Python 3
-
-## Quickstart
-
-Tüm QC pipeline’ı çalıştırmak için:
-
+Step-by-step:
+Download SRA data
+Convert SRA to FASTQ
+Run FastQC on raw reads
+Aggregate reports with MultiQC
+Perform trimming with fastp
+Run FastQC on trimmed reads
+Generate final MultiQC report
+Prepare structured QC_Report.md
+🛠 Requirements
+SRA Toolkit
+FastQC
+MultiQC
+fastp
+Bash (Linux / macOS / WSL)
+🚀 Quickstart
+To run the full QC pipeline:
 bash scripts/run_qc.sh SRR390728
-
-## Outputs
-
-- Raw FastQC → results/fastqc_raw/
-- Raw MultiQC → results/multiqc_raw/multiqc_report.html
-- Trimmed FASTQ → results/trimmed/
-- fastp report → results/fastp/fastp.html
-- Post-trim FastQC → results/fastqc_trimmed/
-- Combined MultiQC → results/multiqc_all/multiqc_report.html
-- QC summary table → report/qc_summary.csv
-
-## Project Highlights
-
-- End-to-end RNA-seq QC pipeline
-- Raw vs Trimmed quality comparison
-- fastp trimming + HTML report
-- MultiQC consolidated reports
-- Automated QC summary table
+This will automatically:
+Download data
+Perform raw QC
+Trim reads
+Perform post-trimming QC
+Generate MultiQC reports
+Save logs
+📂 Output Structure
+data/               → Raw downloaded data
+results/
+   raw_qc/          → FastQC (raw)
+   trimmed/         → Trimmed FASTQ files
+   post_qc/         → FastQC (after trimming)
+   multiqc/         → Combined MultiQC reports
+   fastp/           → fastp HTML & JSON reports
+logs/               → Execution logs
+QC_Report.md        → Final QC summary report
+Key QC Metrics Evaluated
+Per base sequence quality
+GC content
+Adapter contamination
+Sequence duplication levels
+Overrepresented sequences
+Read length distribution
+✂️ Trimming Strategy
+fastp was used to:
+Remove low-quality bases
+Remove adapter contamination
+Improve overall read quality before downstream analysis
+Trimming decisions were based on:
+FastQC raw quality reports
+Presence of adapter sequences
+Per-base quality drop at read ends
+📈 Project Highlights
+Fully automated Bash pipeline
+Reproducible workflow
+Clear folder organization
+Version-controlled (v1.0.0 release)
+Structured QC documentation
+Ready for integration into alignment & variant calling workflows
+🎯 Future Improvements
+Add alignment step (BWA)
+Add variant calling (GATK)
+Add visualization in IGV
+Convert pipeline into Snakemake / Nextflow workflow
+👨‍💻 Author
+Alperen Göçmen
+BSc Genetics Student | Aspiring Bioinformatics Specialist
