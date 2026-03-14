@@ -122,7 +122,7 @@ Trimming decisions were based on:
 - Fully automated Bash pipeline
 - Reproducible workflow
 - Clear folder organization
-- Version-controlled (v1.0.0 release)
+- Version-controlled (v1.0 release)
 - Structured QC documentation
 - Ready for integration into alignment & variant calling workflows
 
